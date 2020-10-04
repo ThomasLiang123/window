@@ -30,10 +30,10 @@ class _TopicPageState extends State<TopicPage> {
     String tag = "Test Tag";
     Color tagColor = Colors.blue;
 
-    PostCell subcell = new PostCell(title, "subcell test", author, publishTime, tag, tagColor, []);
+    PostCell subcell = new PostCell(title, "subcell test", author, publishTime, tag, tagColor, [], true);
     List<PostCell> subcells = [subcell];
 
-    PostCell cell = new PostCell(title, body, author, publishTime, tag, tagColor, subcells);
+    PostCell cell = new PostCell(title, body, author, publishTime, tag, tagColor, subcells, false);
     posts.add(cell);
   }
 

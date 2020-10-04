@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +15,9 @@ class PostCell extends StatefulWidget {
 
   List<PostCell> subcells;
 
-  PostCell(String t, String b, String a, String pt, String tg, Color tc, List<PostCell> sc) {
+  bool isReply;
+
+  PostCell(String t, String b, String a, String pt, String tg, Color tc, List<PostCell> sc, bool isrep) {
     title = t;
     body = b;
     author = a;
@@ -21,10 +25,11 @@ class PostCell extends StatefulWidget {
     tag = tg;
     tagColor = tc;
     subcells = sc;
+    isReply = isrep;
   }
 
   @override
-  _PostCellState createState() => _PostCellState(title, body, author, publishTime, tag, tagColor, subcells);
+  _PostCellState createState() => _PostCellState(title, body, author, publishTime, tag, tagColor, subcells, isReply);
 }
 
 class _PostCellState extends State<PostCell> {
@@ -39,9 +44,11 @@ class _PostCellState extends State<PostCell> {
 
   List<PostCell> subcells;
 
+  bool isReply;
+
   bool expanded = false;
 
-  _PostCellState(String t, String b, String a, String pt, String tg, Color tc, List<PostCell> sc) {
+  _PostCellState(String t, String b, String a, String pt, String tg, Color tc, List<PostCell> sc, bool isrep) {
     title = t;
     body = b;
     author = a;
@@ -49,6 +56,7 @@ class _PostCellState extends State<PostCell> {
     tag = tg;
     tagColor = tc;
     subcells = sc;
+    isReply = isrep;
   }
 
   @override
@@ -82,7 +90,7 @@ class _PostCellState extends State<PostCell> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Row(
+                      !isReply ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
@@ -103,9 +111,30 @@ class _PostCellState extends State<PostCell> {
                             ),
                           ),
                         ]
+                      ) : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              " "+author,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 16
+                              ),
+                            ),
+
+                            Text(
+                              publishTime,
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 16
+                              ),
+                            ),
+                          ]
                       ),
 
-                      expanded ? Text(
+                      !isReply && expanded ? Text(
                         " "+author,
                         textAlign: TextAlign.left,
                         style: TextStyle(
@@ -114,7 +143,7 @@ class _PostCellState extends State<PostCell> {
                         ),
                       ) : Container(),
 
-                      expanded ? Text(
+                      Text(
                         " "+tag+" ",
                         textAlign: TextAlign.left,
                         style: TextStyle(
@@ -123,7 +152,7 @@ class _PostCellState extends State<PostCell> {
                           fontSize: 16,
                           color: Colors.white
                         ),
-                      ) : Container(),
+                      ),
 
                       Text(
                         body,
@@ -133,7 +162,7 @@ class _PostCellState extends State<PostCell> {
                             fontSize: 16
                         ),
                         overflow: TextOverflow.ellipsis,
-                        maxLines: expanded ? 1000 : 1,
+                        maxLines: isReply || expanded ? 1000 : 1,
                       )
                     ],
                   ),
@@ -143,27 +172,26 @@ class _PostCellState extends State<PostCell> {
           ),
 
           expanded ? Container(
-            padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
-            child: FlatButton (
-              child: ClipRRect (
-                borderRadius: BorderRadius.circular(25),
-                child: Container(
-                  width: 1000,
-                  padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                  decoration: BoxDecoration (
-                      borderRadius: BorderRadius.circular(25),
-                      border: Border.all(
-                          width: 2,
-                          color: Colors.grey
-                      )
+            padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
+            child: ClipRRect (
+              borderRadius: BorderRadius.circular(25),
+              child: Container(
+                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                decoration: BoxDecoration (
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(
+                        width: 2,
+                        color: Colors.grey
+                    )
+                ),
+                child: TextField(
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+
+                  decoration: InputDecoration (
+                      border: InputBorder.none,
+                      labelText: "Reply"
                   ),
-                  child: Text(
-                    "Reply",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: Colors.grey
-                    ),
-                  )
                 )
               )
             )
