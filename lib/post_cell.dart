@@ -143,7 +143,7 @@ class _PostCellState extends State<PostCell> {
                         ),
                       ) : Container(),
 
-                      Text(
+                      !isReply ? Text(
                         " "+tag+" ",
                         textAlign: TextAlign.left,
                         style: TextStyle(
@@ -152,7 +152,7 @@ class _PostCellState extends State<PostCell> {
                           fontSize: 16,
                           color: Colors.white
                         ),
-                      ),
+                      ): Container(),
 
                       Text(
                         body,

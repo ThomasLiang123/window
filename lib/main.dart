@@ -1,11 +1,25 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:window/constants.dart';
 import 'package:window/create_post_page.dart';
 import 'package:window/home_page.dart';
 import 'package:window/topic_cell.dart';
 import 'package:window/topic_page.dart';
 import 'post_cell.dart';
 
-void main() {
+void main() async {
+  /*WidgetsFlutterBinding.ensureInitialized();
+  final FirebaseApp app = await Firebase.initializeApp(
+    name: Constants.projectId,
+    options: FirebaseOptions(
+      appId: Constants.androidAppId,
+      apiKey: Constants.apiKey,
+      messagingSenderId: Constants.messagingSenderId,
+      projectId: Constants.projectId,
+      databaseURL: Constants.databaseURL,
+    ),
+  );*/
   runApp(MyApp());
 }
 
@@ -37,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int navIndex = 0;
 
   List<Center> centers;
-  
+
   @override
   Widget build(BuildContext context) {
     centers = <Center>[
